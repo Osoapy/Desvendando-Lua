@@ -1,0 +1,10 @@
+**/cache/
+**/deps/
+**/languageServer/
+**/node_modules/
+**/build/
+**/lit
+**/luvi
+**/luvit
+**/*.zip
+**/*.tar.gz

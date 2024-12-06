@@ -1,0 +1,197 @@
+:root {
+  --topbar-bg: #363636;
+  --topbar-button-bg: #4b1500;
+  --topbar-button-color: #ff3c00;
+  --topbar-buttonShadowColor: #db3300;
+  --topbar-buttonShadowLight: #c52e00;
+
+  --discord-background: #40444b;
+  --discord-bg-500: #1f232c;
+  --discord-tab-bg: #c6cddf;
+  --active-tab-bg: #7289da;
+  --discord-tab-txt: #22262b;
+  --active-tab-txt: #fff;
+
+  --editor-bg: #1e1e1e;
+  --editor-text: #fff;
+  --editor-topbar-bg: #2e2e2e;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--topbar-bg);
+  overflow: hidden;
+}
+
+#pageContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+#editor {
+  height: 100%;
+  width: 100%;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  overflow: hidden;
+}
+
+#TopBar {
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  padding: 0.5rem 1rem;
+  gap: 1rem;
+  background: var(--topbar-bg);
+}
+
+@property --topbar-buttonShadowSize {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0.1;
+}
+
+@property --glow-size {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0.75;
+}
+
+.topBarButton {
+  background: var(--topbar-button-bg);
+  color: var(--topbar-button-color);
+  font-size: 1.15rem;
+  border-radius: 0.15rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0 0.5rem;
+  border: 0;
+  font-weight: 900;
+  width: fit-content;
+  --topbar-buttonShadowSize: 0.1;
+  --glow-size: 0.15;
+  filter: brightness(0.5);
+  box-shadow: 0 calc(var(--topbar-buttonShadowSize) * 1rem) 0 var(--topbar-buttonShadowColor), calc(var(--topbar-buttonShadowSize) * 1rem) 0 0 var(--topbar-buttonShadowColor), calc(var(--topbar-buttonShadowSize) * 1rem) calc(var(--topbar-buttonShadowSize) * 1rem) 0 var(--topbar-buttonShadowLight), 0 0 calc(var(--glow-size) * 1rem) var(--topbar-buttonShadowColor);
+  transition: transform 0.05s, --buttonShadowSize 0.05s, --glow-size 0.05s, filter 0.05s;
+}
+
+.topBarButton:active, .topBarButton.enabled {
+  --topbar-buttonShadowSize: 0;
+  --glow-size: 0.55;
+  transform: translate(0.1rem, 0.1rem);
+  filter: brightness(1);
+}
+
+.horizontal {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 0.5rem;
+}
+
+#fakeDiscord {
+  border-top-left-radius: 0.5rem;
+  background: var(--discord-background);
+  overflow: hidden;
+}
+
+#fakeTabs {
+  background: var(--discord-bg-500);
+  width: 100%;
+  height: 2rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
+}
+
+.fakeTab {
+  --bgColor: var(--discord-tab-bg);
+  --txtColor: var(--discord-tab-txt);
+  color: var(--txtColor);
+  border: 0;
+  padding: 0 0.5rem;
+  margin-top: 0.5rem;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+  background: var(--bgColor);
+  position: relative;
+  margin-inline: 0.25rem;
+  transition: background 0.1s;
+  cursor: pointer;
+}
+
+.fakeTab::before, .fakeTab::after {
+  content: '';
+  display: block;
+  position: absolute;
+  --size: 0.75rem;
+  width: var(--size);
+  height: var(--size);
+  left: calc(0px - var(--size));
+  bottom: 0;
+  background: var(--bgColor);
+  mask: radial-gradient(circle at 0 0, transparent calc(var(--size) - 1px), #fff var(--size));
+  transition: background 0.1s;
+}
+
+.fakeTab::after {
+  left: unset;
+  right: calc(0px - var(--size));
+  mask: radial-gradient(circle at var(--size) 0rem, transparent calc(var(--size) - 1px), #fff var(--size));
+}
+
+.fakeTab.active {
+  --txtColor: var(--active-tab-txt);
+  --bgColor: var(--active-tab-bg);
+  z-index: 1;
+}
+
+#editorBox {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-rows: 2fr 1fr;
+  gap: 0.5rem;
+}
+
+#console {
+  width: 100%;
+  height: 100%;
+  background: var(--editor-bg);
+  color: var(--editor-text);
+  border-top-right-radius: 0.5rem;
+  overflow: hidden;
+}
+
+#editor-topbar {
+  width: 100%;
+  height: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
+  background: var(--editor-topbar-bg);
+}
+
+.tabTitle {
+  color: var(--editor-text);
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}

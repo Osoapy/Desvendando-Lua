@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link
+      rel="stylesheet"
+      data-name="vs/editor/editor.main"
+      href="https://unpkg.com/monaco-editor@0.52.0/min/vs/editor/editor.main.css"
+    />
+    <link rel="stylesheet" type="text/css" href="./index.css" />
+  </head>
+
+  <body>
+    <div id="pageContent">
+      <div id="TopBar">
+        <button id="runButton" class="topBarButton">Run</button>
+        <button id="saveButton" class="topBarButton">Save</button>
+        <button id="loadButton" class="topBarButton">Load</button>
+        <button id="clearButton" class="topBarButton">Clear</button>
+      </div>
+      <div class="horizontal">
+        <div id="editorBox">
+          <div id="editor"></div>
+          <div id="console">
+            <div id="editor-topbar">
+              <h2 class="tabTitle">Terminal</h2>
+              <button id="cleanTerminal">Limpar</button>
+            </div>
+          </div>
+        </div>
+        <div id="fakeDiscord">
+          <div id="fakeTabs">
+            <button class="fakeTab active">Chat</button>
+            <button class="fakeTab">Painel do Desenvolvedor</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script defer>
+      var require = {
+        paths: {
+          vs: "https://unpkg.com/monaco-editor@0.52.0/min/vs",
+        },
+      };
+    </script>
+    <script defer src="https://unpkg.com/monaco-editor@0.52.0/min/vs/loader.js"></script>
+    <script defer src="https://unpkg.com/monaco-editor@0.52.0/min/vs/editor/editor.main.nls.js"></script>
+    <script defer src="https://unpkg.com/monaco-editor@0.52.0/min/vs/editor/editor.main.js"></script>
+    <script defer src="./index.js"></script>
+  </body>
+</html>
