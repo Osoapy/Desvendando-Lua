@@ -45,6 +45,17 @@ nav a:hover {
   text-decoration: underline;
 }
 
+footer {
+  text-align: center;
+  padding: 1rem 0;
+  background-color: #000080;
+  color: #FFFFFF;
+  margin-top: 2rem;
+}
+
+/* IDs */
+
+/* Classes */
 .hero {
   text-align: center;
   padding: 4rem 2rem;
@@ -73,12 +84,34 @@ nav a:hover {
   background-color: #FFC700;
 }
 
-footer {
-  text-align: center;
-  padding: 1rem 0;
-  background-color: #000080;
-  color: #FFFFFF;
-  margin-top: 2rem;
+.content-section {
+  padding: 2rem;
+  margin: 1rem auto;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  max-width: 800px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* IDs */
+.content-section h2 {
+  color: #000080;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.content-section p, .content-section ul {
+  color: #333333;
+  line-height: 1.6;
+}
+
+.content-section ul {
+  padding-left: 1.5rem;
+}
+
+.content-section ul li {
+  margin-bottom: 0.5rem;
+}
+
+.content-section li strong {
+  color: #000080;
+}
