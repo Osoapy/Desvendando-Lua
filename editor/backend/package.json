@@ -2,7 +2,8 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/index.js",
+  "module": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsc && node ./build/index.js",
@@ -11,9 +12,14 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "typescript": "^5.7.2"
+    "@promisepending/logger.js": "^2.0.0-alpha.1",
+    "express": "^4.21.2",
+    "typescript": "^5.7.2",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
-    "@types/node": "^22.10.1"
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.1",
+    "@types/ws": "^8.5.13"
   }
 }

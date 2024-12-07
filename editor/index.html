@@ -8,15 +8,27 @@
       href="https://unpkg.com/monaco-editor@0.52.0/min/vs/editor/editor.main.css"
     />
     <link rel="stylesheet" type="text/css" href="./index.css" />
+    <link rel="icon" type="image/x-icon" href="../assets/lua.svg">
+    <title>Editor | Minicurso Desvendando Lua</title>
   </head>
 
   <body>
-    <div id="pageContent">
+    <div id="loginModal">
+      <div id="loginForm">
+        <h1 class="formTitle">Bem-Vindo!</h1>
+        <div class="formInput">
+          <label for="loginUsername" class="formInputLabel">Nome de Usuário</label>
+          <input id="loginUsername" class="formInputElement" type="text" placeholder=" ">
+        </div>
+        <button id="loginButton" class="formButton" disabled>Conectar</button>
+      </div>
+    </div>
+    <div id="pageContent" class="unselectable">
       <div id="TopBar">
-        <button id="runButton" class="topBarButton">Run</button>
-        <button id="saveButton" class="topBarButton">Save</button>
-        <button id="loadButton" class="topBarButton">Load</button>
-        <button id="clearButton" class="topBarButton">Clear</button>
+        <button id="runButton" class="button">Run</button>
+        <button id="saveButton" class="button">Save</button>
+        <button id="loadButton" class="button">Load</button>
+        <button id="clearButton" class="button">Clear</button>
       </div>
       <div class="horizontal">
         <div id="editorBox">
@@ -24,14 +36,34 @@
           <div id="console">
             <div id="editor-topbar">
               <h2 class="tabTitle">Terminal</h2>
-              <button id="cleanTerminal">Limpar</button>
+              <button id="cleanTerminal" class="button">Limpar</button>
             </div>
+            <div id="consoleContent"></div>
           </div>
         </div>
         <div id="fakeDiscord">
           <div id="fakeTabs">
             <button class="fakeTab active">Chat</button>
             <button class="fakeTab">Painel do Desenvolvedor</button>
+          </div>
+          <div id="fakeContent">
+            <div id="fakeChat" class="fakeDiscordContent">
+              <div id="userList">
+                <h2 class="tabTitle">Usuários</h2>
+                <div id="users">
+                  <div id="clientUser" class="user">
+                    <img id="clientUserImage" src="" alt="User Avatar" class="userAvatar">
+                    <span id="clientUserName" class="userName">User</span>
+                  </div>
+                  <div id="botUser" class="user hidden">
+                    <img id="botUserImage" src="" alt="User Avatar" class="userAvatar">
+                    <span id="botUserName" class="userName">User</span>
+                  </div>
+                </div>
+              </div>
+              <div id="chatMessages"></div>
+            </div>
+            <div id="fakeDevPanel" class="fakeDiscordContent hidden"></div>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 **/cache/
 **/deps/
-**/languageServer/
+**/languageBin/
 **/node_modules/
 **/build/
 **/lit

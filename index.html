@@ -7,39 +7,47 @@
 
     <!-- Links -->
     <link rel="stylesheet" href="./style.css"/>
-    <link rel="icon" type="image/x-icon" href="https://www.svgrepo.com/show/373817/lua.svg">
+    <link rel="icon" type="image/x-icon" href="./assets/lua.svg">
 </head>
 <body>
     <header>
         <div>
-            <img src="https://www.svgrepo.com/show/373817/lua.svg" alt="Logotipo Lua">
+            <img src="./assets/lua.svg" alt="Logotipo Lua">
         </div>
         <nav>
             <a href="#home">Home</a>
             <a href="#sobre">Sobre</a>
             <a href="#utilizacao">Utilizações</a>
             <a href="#criadores">Criadores</a>
-            <a href="#contato">Contato</a>
+            <a href="./editor/index.html">Editor</a>
         </nav>
     </header>
     
-    <div class="hero" id="home">
+    <section class="hero" id="home">
         <h1>Minicurso Desvendando Lua</h1>
         <p>Aprenda a criar aplicações com a linguagem Lua!</p>
         <a href="https://www.even3.com.br/participante/sessions/" target="_blank"><button class="button">Inscreva-se</button></a>
-    </div>
+    </section>
 
     <main>
         <!-- Sobre Lua -->
         <section id="sobre" class="content-section">
             <h2>O que é Lua?</h2>
             <p>
-                A linguagem **Lua** foi criada em 1993 por **Roberto Ierusalimschy**, **Luiz Henrique de Figueiredo** e **Waldemar Celes**, 
-                pesquisadores da PUC-Rio. É uma linguagem de programação leve e rápida, conhecida por sua simplicidade e flexibilidade.
+                A linguagem <b>Lua</b> foi criada em 1993 por <b>Roberto Ierusalimschy</b>, 
+                <b>Luiz Henrique de Figueiredo</b> e <b>Waldemar Celes</b>, 
+                pesquisadores da PUC-Rio. É uma linguagem de programação leve e rápida, 
+                conhecida por sua simplicidade e flexibilidade.
             </p>
             <p>
-                Inicialmente, Lua foi desenvolvida para ser uma ferramenta de extensão para programas, mas rapidamente ganhou destaque no 
+                Inicialmente, Lua foi desenvolvida para ser uma ferramenta de extensão 
+                para programas, mas rapidamente ganhou destaque no 
                 mundo da programação por sua eficiência e fácil integração com outras linguagens.
+            </p>
+            <p>
+                Atualmente, hoje Lua é uma das únicas linguagens de programação fora do 
+                eixo Europa / EUA / Japão que é utilizada mundialmente, sendo algumas 
+                dessas exceções: R, Dart e Elixir (também brasileira). 
             </p>
         </section>
 
@@ -47,10 +55,42 @@
         <section id="utilizacao" class="content-section">
             <h2>Principais Utilizações</h2>
             <ul>
-                <li><strong>Jogos:</strong> Lua é amplamente usada no desenvolvimento de jogos, sendo o motor por trás de títulos como <em>World of Warcraft</em>, <em>Angry Birds</em> e <em>Roblox</em>.</li>
-                <li><strong>Love2D:</strong> Um framework leve e poderoso para criar jogos 2D. Ele permite que desenvolvedores trabalhem de forma criativa e eficiente com Lua.</li>
-                <li><strong>Automação:</strong> Lua é frequentemente usada para scripts de automação em softwares e jogos, sendo uma escolha popular para criar bots e extensões.</li>
-                <li><strong>Web:</strong> Integrações com servidores e sistemas para criar soluções leves e escaláveis.</li>
+                <li>
+                    <strong>Jogos:</strong> Lua é amplamente usada no desenvolvimento de jogos, 
+                    sendo o motor por trás de títulos, tais como: <b>World of Warcraft</b>, <b>Arco</b>,
+                    <b>Moonring</b>, <b>Angry Birds</b>, <b>Move or Die</b> e <b>Roblox</b>. 
+                    Além disso, o videogame <b>Balatro</b>, um  criado em Love2D 
+                    (mais sobre ele logo abaixo), está concorrendo ao <b>The Game 
+                    Award</b> para Jogo do Ano.
+                </li>
+                <li>
+                    <strong><a class="neutral-link" href="https://love2d.org" 
+                    target="_blank">Love2D:</a></strong> 
+                    Um framework open-source leve (e poderoso) 
+                    para criação de jogos 2D. Ele permite que desenvolvedores trabalhem 
+                    de forma criativa e eficiente através da linguagem Lua. Outrossim, 
+                    ele também permite que você crie jogos com objetivos comerciais sem nenhuma
+                    limitação.
+                </li>
+                <li>
+                    <strong>Automação:</strong> Lua é amplamente utilizada em scripts de automação, 
+                    permitindo a personalização de workflows em software e jogos. Por ser leve e flexível, 
+                    é uma escolha popular para criar bots em plataformas como 
+                    <a class="neutral-link" href="https://discord.com" target="blank">
+                        <strong>Discord</strong>
+                    </a>
+                    , sistemas de IA em jogos, e extensões de programas. 
+                    Sua integração simples com outras linguagens também 
+                    facilita o uso em soluções específicas de automação empresarial e tarefas repetitivas.
+                </li>
+                <li>
+                    <strong>Web:</strong> Embora Lua não seja tão comum em desenvolvimento web 
+                    tradicional quanto linguagens como JavaScript, ela tem aplicações importantes. 
+                    É utilizada em integrações com servidores e sistemas, sendo destaque em ferramentas 
+                    como <b>Nginx</b> (através do OpenResty) para criar APIs leves e escaláveis. Além disso, 
+                    frameworks como <b>Lapis</b> permitem o desenvolvimento de aplicações web completas com 
+                    sintaxe minimalista.
+                </li>                
             </ul>
         </section>
 
@@ -58,22 +98,33 @@
         <section id="criadores" class="content-section">
             <h2>Quem Criou este Projeto?</h2>
             <p>
-                Olá! Eu sou <strong>João Gabriel</strong>, e junto ao meu colega <strong>Emanuel Fraklyn</strong>, 
+                Olá! Eu sou 
+                <a class="neutral-link" href="https://github.com/Osoapy" target="_blank">
+                    <strong>João Gabriel</strong>
+                </a>
+                , e junto ao meu colega 
+                <a class="neutral-link" href="https://github.com/emanuelfranklyn" target="_blank">
+                    <strong>Emanuel Franklyn</strong>
+                </a>, 
                 estamos trazendo para você uma introdução prática e dinâmica à linguagem Lua.
             </p>
             <p>
-                Neste minicurso de 2 horas, vamos explorar como você pode utilizar Lua do zero até a criação de bots no Discord, 
-                seja para automatizar tarefas, melhorar a experiência dos usuários, ou simplesmente se divertir desenvolvendo suas próprias funcionalidades.
+                Neste minicurso de 2 horas, vamos explorar como você pode utilizar Lua do zero 
+                até a criação de bots no Discord, 
+                seja para automatizar tarefas, melhorar a experiência dos usuários, ou simplesmente 
+                se divertir desenvolvendo suas próprias funcionalidades.
             </p>
             <p>
-                Nosso objetivo é oferecer uma experiência que combine aprendizado com aplicação prática, mostrando que programar em Lua pode ser simples, 
-                eficiente e muito divertido. Prepare-se para sair daqui com conhecimentos que você pode usar em projetos reais!
+                Nosso objetivo é oferecer uma experiência que combine aprendizado com aplicação prática, 
+                mostrando que programar em Lua pode ser simples, 
+                eficiente e muito divertido. Prepare-se para sair daqui com conhecimentos que você 
+                pode usar em projetos reais!
             </p>
         </section>
     </main>
 
     <footer>
-        <p>&copy; Minicurso Lua V SertãoComp | Desenvolvido por João Gabriel e Emanuel Fraklyn</p>
+        <p id="footerText">&copy; Minicurso Lua V SertãoComp | Desenvolvido por João Gabriel e Emanuel Franklyn</p>
     </footer>
 </body>
 </html>

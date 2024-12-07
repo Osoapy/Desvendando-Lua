@@ -1,26 +1,37 @@
 :root {
   --topbar-bg: #363636;
-  --topbar-button-bg: #4b1500;
-  --topbar-button-color: #ff3c00;
-  --topbar-buttonShadowColor: #db3300;
-  --topbar-buttonShadowLight: #c52e00;
+  --topbar-button-bg: rgb(4, 0, 72);
+  --topbar-button-color: #5078F2;
+  --topbar-buttonShadowColor: #5078F2;
+  --topbar-buttonShadowLight: rgb(84, 127, 255);
 
   --discord-background: #40444b;
-  --discord-bg-500: #1f232c;
-  --discord-tab-bg: #c6cddf;
-  --active-tab-bg: #7289da;
-  --discord-tab-txt: #22262b;
+  --discord-bg-500: #6087e2;
+  --discord-tab-bg: #dae4f7;
+  --active-tab-bg: #1c233d;
+  --discord-tab-txt: #1a1e24;
   --active-tab-txt: #fff;
 
   --editor-bg: #1e1e1e;
   --editor-text: #fff;
   --editor-topbar-bg: #2e2e2e;
+
+  --modal-bg: #0005;
+  --loginForm-bg: #3b4757;
+  --loginForm-color: #f0ffae;
+  --loginForm-title-color: #FFD700;
+  --accent-color: #eeff00;
+  --input-border-color: #f0ffae55;
+
+  --form-button-bg: #eeff00;
+  --form-button-color: #000000;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  isolation: isolate;
 }
 
 html, body {
@@ -69,7 +80,7 @@ html, body {
   initial-value: 0.75;
 }
 
-.topBarButton {
+.button {
   background: var(--topbar-button-bg);
   color: var(--topbar-button-color);
   font-size: 1.15rem;
@@ -87,7 +98,7 @@ html, body {
   transition: transform 0.05s, --buttonShadowSize 0.05s, --glow-size 0.05s, filter 0.05s;
 }
 
-.topBarButton:active, .topBarButton.enabled {
+.button:active, .button.enabled {
   --topbar-buttonShadowSize: 0;
   --glow-size: 0.55;
   transform: translate(0.1rem, 0.1rem);
@@ -194,4 +205,131 @@ html, body {
   font-size: 1rem;
   font-weight: 900;
   text-transform: uppercase;
+}
+
+.hidden {
+  display: none;
+}
+
+#fakeContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: var(--active-tab-bg);
+  height: 100%;
+}
+
+#loginModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999999;
+  background: var(--modal-bg);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(4px);
+}
+
+#loginForm {
+  background: var(--loginForm-bg);
+  color: var(--loginForm-color);
+  padding: 1rem;
+  border-radius: 1rem;
+  min-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  filter: drop-shadow(0 0 0.15rem var(--loginForm-title-color));
+}
+
+.formInput {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-size: 1rem;
+  --padding-block: 0.5rem;
+  --padding-inline: 0.5rem;
+}
+
+.formInputElement {
+  width: 100%;
+  padding: var(--padding-block) var(--padding-inline);
+  border-radius: 0.5rem;
+  border: 1px solid var(--input-border-color);
+  outline: var(--accent-color);
+  font-size: 1em;
+  background: transparent;
+  color: var(--loginForm-color);
+}
+
+.formInputLabel {
+  position: absolute;
+  top: var(--padding-block);
+  left: calc(var(--padding-inline) / 2);
+  z-index: 2;
+  pointer-events: none;
+  background: var(--loginForm-bg);
+  line-height: normal;
+  transition: top 0.1s ease, opacity 0.5s ease;
+  padding-inline: var(--padding-inline);
+  opacity: 0.5;
+}
+
+.formInput:has(.formInputElement:not(:placeholder-shown)) .formInputLabel {
+  top: calc(-50% + var(--padding-block));
+  opacity: 1;
+}
+
+.formTitle {
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: var(--loginForm-title-color);
+  text-align: center;
+  margin-block: 0.5rem;
+}
+
+.formButton {
+  background: var(--loginForm-bg);
+  color: var(--loginForm-color);
+  font-size: 1.15rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--input-border-color);
+  width: fit-content;
+  margin-left: auto;
+  transition: background 0.1s, color 0.1s, filter 0.1s;
+}
+
+.formButton:hover {
+  background: var(--form-button-bg);
+  color: var(--form-button-color);
+}
+
+.formButton:active {
+  filter:brightness(0.75);
+}
+
+.formButton:disabled {
+  background: var(--form-button-bg);
+  color: var(--form-button-color);
+  filter: brightness(0.5) hue-rotate(180deg) saturate(0.25);
+  cursor: not-allowed;
+}
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
