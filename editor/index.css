@@ -1,30 +1,27 @@
 :root {
-  --topbar-bg: #363636;
-  --topbar-button-bg: rgb(4, 0, 72);
-  --topbar-button-color: #5078F2;
-  --topbar-buttonShadowColor: #5078F2;
-  --topbar-buttonShadowLight: rgb(84, 127, 255);
+  --gray-300: #363636;
+  --gray-900: #ebebeb;
 
-  --discord-background: #40444b;
-  --discord-bg-500: #6087e2;
-  --discord-tab-bg: #dae4f7;
-  --active-tab-bg: #1c233d;
-  --discord-tab-txt: #1a1e24;
-  --active-tab-txt: #fff;
+  --blue-300: #40444b;
+  --blue-900: #a4c9ff;
 
-  --editor-bg: #1e1e1e;
-  --editor-text: #fff;
-  --editor-topbar-bg: #2e2e2e;
+  --white: #fff;
+  --black: #111;
 
-  --modal-bg: #0005;
-  --loginForm-bg: #3b4757;
-  --loginForm-color: #f0ffae;
-  --loginForm-title-color: #FFD700;
-  --accent-color: #eeff00;
-  --input-border-color: #f0ffae55;
+  --black-t9: #111a;
 
-  --form-button-bg: #eeff00;
-  --form-button-color: #000000;
+  --accent-blue: #5078F2;
+  --brighter-accent-blue: #547fff;
+
+  --ice-white: #efefff;
+  --gold-300: #FFD700;
+  --gold-900: #ffee00;
+  --gold-1500: #ffef92;
+  --green-300: #43b581;
+  --green-900: #00ff8c;
+
+  --red-900: #ff2222;
+  --red-t3: #ff222233;
 }
 
 * {
@@ -32,6 +29,7 @@
   margin: 0;
   padding: 0;
   isolation: isolate;
+  transition: background 0.25s ease, color 0.25s ease, border 0.25s ease;
 }
 
 html, body {
@@ -42,11 +40,76 @@ html, body {
   padding: 0;
   background: var(--topbar-bg);
   overflow: hidden;
+
+  --topbar-bg: var(--gray-300);
+  --topbar-button-bg: var(--blue-300);
+  --topbar-button-color: var(--blue-900);
+  --topbar-buttonShadowColor: var(--accent-blue);
+  --topbar-buttonShadowLight: var(--brighter-accent-blue);
+
+  --discord-background: var(--gray-300);
+  --discord-bg-500: var(--accent-blue);
+  --discord-tab-bg: var(--blue-900);
+  --active-tab-bg: var(--blue-300);
+  --discord-tab-txt: var(--black);
+  --active-tab-txt: var(--white);
+
+  --editor-bg: var(--black-t9);
+  --editor-text: var(--white);
+  --editor-topbar-bg: var(--black);
+
+  --modal-bg: var(--black-t9);
+  --loginForm-bg: var(--blue-300);
+  --loginForm-color: var(--gold-1500);
+  --loginForm-title-color: var(--gold-300);
+  --accent-color: var(--gold-900);
+  --input-border-color: var(--gold-1500);
+
+  --form-button-bg: var(--gold-900);
+  --form-button-color: var(--black);
+  --discord-available-indicator: var(--green-300);
+
+  --errorDialog-bg: var(--red-t3);
+  --errorDialog-border: var(--red-900);
+}
+
+.light {
+  --topbar-bg: var(--gray-900);
+  --topbar-button-bg: var(--blue-900);
+  --topbar-button-color: var(--black);
+  --topbar-buttonShadowColor: var(--accent-blue);
+  --topbar-buttonShadowLight: var(--brighter-accent-blue);
+
+  --discord-background: var(--blue-900);
+  --discord-bg-500: var(--brighter-accent-blue);
+  --discord-tab-bg: var(--blue-900);
+  --active-tab-bg: var(--ice-white);
+  --discord-tab-txt: var(--white);
+  --active-tab-txt: var(--black);
+
+  --editor-bg: var(--white);
+  --editor-text: var(--black);
+  --editor-topbar-bg: var(--ice-white);
+
+  --modal-bg: var(--black-t9);
+  --loginForm-bg: var(--gray-900);
+  --loginForm-color: var(--brighter-accent-blue);
+  --loginForm-title-color: var(--accent-blue);
+  --accent-color: var(--accent-blue);
+  --input-border-color: var(--accent-blue);
+
+  --form-button-bg: var(--accent-blue);
+  --form-button-color: var(--black);
+  --discord-available-indicator: var(--green-900);
+
+  --errorDialog-bg: var(--red-t3);
+  --errorDialog-border: var(--red-900);
 }
 
 #pageContent {
-  display: flex;
-  flex-direction: column;
+  --top-bar-height: 3rem;
+  display: grid;
+  grid-template-rows: var(--top-bar-height) calc(100% - var(--top-bar-height));
   height: 100%;
   width: 100%;
 }
@@ -61,8 +124,10 @@ html, body {
 
 #TopBar {
   width: 100%;
-  height: 3rem;
+  height: var(--top-bar-height);
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   padding: 0.5rem 1rem;
   gap: 1rem;
   background: var(--topbar-bg);
@@ -93,7 +158,7 @@ html, body {
   width: fit-content;
   --topbar-buttonShadowSize: 0.1;
   --glow-size: 0.15;
-  filter: brightness(0.5);
+  filter: brightness(0.75);
   box-shadow: 0 calc(var(--topbar-buttonShadowSize) * 1rem) 0 var(--topbar-buttonShadowColor), calc(var(--topbar-buttonShadowSize) * 1rem) 0 0 var(--topbar-buttonShadowColor), calc(var(--topbar-buttonShadowSize) * 1rem) calc(var(--topbar-buttonShadowSize) * 1rem) 0 var(--topbar-buttonShadowLight), 0 0 calc(var(--glow-size) * 1rem) var(--topbar-buttonShadowColor);
   transition: transform 0.05s, --buttonShadowSize 0.05s, --glow-size 0.05s, filter 0.05s;
 }
@@ -111,12 +176,15 @@ html, body {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 0.5rem;
+  grid-template-rows: 100%;
 }
 
 #fakeDiscord {
   border-top-left-radius: 0.5rem;
   background: var(--discord-background);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 #fakeTabs {
@@ -177,6 +245,7 @@ html, body {
   height: 100%;
   grid-template-rows: 2fr 1fr;
   gap: 0.5rem;
+  overflow: hidden;
 }
 
 #console {
@@ -186,11 +255,13 @@ html, body {
   color: var(--editor-text);
   border-top-right-radius: 0.5rem;
   overflow: hidden;
+  display: grid;
+  grid-template-rows: 2rem 1fr;
 }
 
 #editor-topbar {
   width: 100%;
-  height: 2rem;
+  height: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -208,16 +279,18 @@ html, body {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 #fakeContent {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 0.5rem;
+  padding-inline: 0.5rem;
   background: var(--active-tab-bg);
   height: 100%;
+  overflow: hidden;
+  position: relative;
 }
 
 #loginModal {
@@ -332,4 +405,288 @@ html, body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+#userList {
+  display: flex;
+  flex-direction: column;
+  padding-block: 0.5rem;
+  width: 100%;
+  border-bottom: 1px solid var(--discord-bg-500);
+}
+
+#users {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(calc(50% - 0.25rem), 1fr));
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.user {
+  --pfp-size: 3rem;
+  display: grid;
+  grid-template-columns: var(--pfp-size) 1fr;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--discord-background);
+  padding: 0.25rem;
+  border-radius: 1rem;
+  position: relative;
+}
+
+.userAvatar {
+  width: var(--pfp-size);
+  aspect-ratio: 1;
+  height: auto;
+  border-radius: 25%;
+  background: var(--discord-bg-500);
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.user::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 1rem;
+  aspect-ratio: 1;
+  height: auto;
+  left: 2rem;
+  bottom: 0;
+  border: 0.25rem solid var(--discord-background);
+  background: var(--discord-available-indicator);
+  z-index: 2;
+  border-radius: 50%;
+}
+
+.userName {
+  color: var(--active-tab-txt);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.userNameContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+}
+
+.userMotd {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  color: var(--active-tab-txt);
+  font-size: 0.75rem;
+  font-weight: 300;
+}
+
+#consoleContent {
+  padding: 0.25rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+}
+
+#fakeChat {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100%;
+  width: 100%;
+  transform: translateX(0%);
+  opacity: 1;
+  transition: transform 0.5s ease-out, opacity 0.5s ease;
+  animation: fakeDevAnim 0.5s ease-out;
+}
+
+#fakeChat.exiting {
+  opacity: 0;
+  transform: translateX(-100%);
+  animation: none;
+  position: absolute;
+}
+
+@keyframes fakeChatAnim {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+#fakeDevPanel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  transform: translateX(0%);
+  opacity: 1;
+  transition: transform 0.5s ease-out, opacity 0.5s ease;
+  animation: fakeChatAnim 0.5s ease-out;
+}
+
+#fakeDevPanel.exiting {
+  opacity: 0;
+  transform: translateX(100%);
+  animation: none;
+  position: absolute;
+}
+
+@keyframes fakeDevAnim {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+#chatMessages {
+  height: 100%;
+  padding-block: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-y: scroll;
+}
+
+#inputChat {
+  border-top: 1px solid var(--discord-bg-500);
+  padding-block: 0.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 0;
+  font-size: 1rem;
+  background: var(--discord-background);
+  color: var(--active-tab-txt);
+}
+
+.simple-button {
+  width: fit-content;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 0;
+  font-size: 1rem;
+  background: var(--discord-background);
+  color: var(--active-tab-txt);
+  cursor: pointer;
+}
+
+.simple-button:hover {
+  background: var(--discord-bg-500);
+}
+
+.simple-button:active {
+  filter: brightness(0.75);
+}
+
+.arrow-right {
+  width: 1.5rem;
+  aspect-ratio: 1;
+  position: relative;
+}
+
+.arrow-right div {
+  position: absolute;
+  width: 80%;
+  height: 35%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-45%, -115%) rotate(45deg);
+  background: var(--editor-text);
+  border-radius: 100vw;
+}
+
+.arrow-right div:nth-child(2) {
+  transform: translate(-45%, 15%) rotate(-45deg);
+}
+
+.errorDialog {
+  width: 100%;
+  background: var(--errorDialog-bg);
+  border: 1px solid var(--errorDialog-border);
+  border-left: 0.35rem solid var(--errorDialog-border);
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.chatMessage {
+  width: 95%;
+  height: fit-content;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.chatMessagePFP {
+  height: 3rem;
+  aspect-ratio: 1;
+  width: auto;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+}
+
+.messageName {
+  font-weight: 700;
+  color: var(--editor-text);
+}
+
+.messageContent {
+  font-size: 0.85rem;
+  color: var(--editor-text);
+  word-break: break-all;
+}
+
+.plus-icon {
+  width: 5rem;
+  height: auto;
+  aspect-ratio: 1;
+  position: relative;
+}
+
+.plus-icon::before, .plus-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 100vw;
+  background: var(--editor-text);
+  width: 80%;
+  height: 15%;
+}
+
+.plus-icon::after {
+  width: 15%;
+  height: 80%;
+}
+
+.createApp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.createAppTitle {
+  color: var(--editor-text);
 }

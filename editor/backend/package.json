@@ -4,6 +4,7 @@
   "description": "",
   "main": "build/index.js",
   "module": "build/index.js",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsc && node ./build/index.js",
@@ -13,6 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "@promisepending/logger.js": "^2.0.0-alpha.1",
+    "@sapphire/snowflake": "^3.5.5",
     "express": "^4.21.2",
     "typescript": "^5.7.2",
     "ws": "^8.18.0"

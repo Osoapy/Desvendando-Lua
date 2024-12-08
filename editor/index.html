@@ -20,15 +20,21 @@
           <label for="loginUsername" class="formInputLabel">Nome de Usuário</label>
           <input id="loginUsername" class="formInputElement" type="text" placeholder=" ">
         </div>
+        <div id="loginErrorDialog" class="errorDialog hidden">
+          <h3 id="errorDialogTitle">Erro</h3>
+          <p id="errorDialogDescription">Um erro ocorreu</p>
+        </div>
         <button id="loginButton" class="formButton" disabled>Conectar</button>
       </div>
     </div>
     <div id="pageContent" class="unselectable">
       <div id="TopBar">
-        <button id="runButton" class="button">Run</button>
-        <button id="saveButton" class="button">Save</button>
-        <button id="loadButton" class="button">Load</button>
-        <button id="clearButton" class="button">Clear</button>
+        <div id="TopBarLeft">
+          <button id="runButton" class="button">Run</button>
+        </div>
+        <div id="TopBarRight">
+          <button id="themeSwitch" class="button">Modo Claro</button>
+        </div>
       </div>
       <div class="horizontal">
         <div id="editorBox">
@@ -43,27 +49,46 @@
         </div>
         <div id="fakeDiscord">
           <div id="fakeTabs">
-            <button class="fakeTab active">Chat</button>
-            <button class="fakeTab">Painel do Desenvolvedor</button>
+            <button id="fakeDiscordChatButton" class="fakeTab active">Chat</button>
+            <button id="fakeDiscordDevButton" class="fakeTab">Painel do Desenvolvedor</button>
           </div>
           <div id="fakeContent">
             <div id="fakeChat" class="fakeDiscordContent">
               <div id="userList">
-                <h2 class="tabTitle">Usuários</h2>
                 <div id="users">
                   <div id="clientUser" class="user">
                     <img id="clientUserImage" src="" alt="User Avatar" class="userAvatar">
-                    <span id="clientUserName" class="userName">User</span>
+                    <div class="userNameContainer">
+                      <span id="clientUserName" class="userName">User</span>
+                      <span id="clientMotd" class="userMotd">...</span>
+                    </div>
                   </div>
                   <div id="botUser" class="user hidden">
                     <img id="botUserImage" src="" alt="User Avatar" class="userAvatar">
-                    <span id="botUserName" class="userName">User</span>
+                    <div class="userNameContainer">
+                      <span id="botUserName" class="userName">User</span>
+                      <span id="botMotd" class="userMotd">...</span>
+                    </div>
                   </div>
                 </div>
               </div>
               <div id="chatMessages"></div>
+              <div id="inputChat">
+                <input id="inputMessage" placeholder="Mensagem" class="input">
+                <button id="inputMessageButton" class="simple-button"><div class="arrow-right"><div></div><div></div></div></button>
+              </div>
             </div>
-            <div id="fakeDevPanel" class="fakeDiscordContent hidden"></div>
+            <div id="fakeDevPanel" class="fakeDiscordContent hidden">
+              <div id="homeScreenFakeDev" class='createApp'>
+                <h2 class='createAppTitle'>Criar Aplicação</h2>
+                <button id="createApplication" class="plus-icon simple-button"><div></div><div></div></button>
+              </div>
+              <div id="devPanelContent" class="hidden vertical">
+                <input id="applicationName" placeholder="Nome aplicação">
+                <input id="applicationDescription" placeHolder="Descrição">
+                <button id="createOrUpdateApp">Criar ou atualizar</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

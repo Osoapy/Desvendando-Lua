@@ -1,0 +1,97 @@
+Slide 01 - Primórdios
+-- Meu primeiro programa em Lua
+
+print("Olá, Mundo!")
+
+-- Notem que o comando print() imprime as mensagens no terminal
+-- Além disso, pra fazer comentários no programa basta colocar o -- e o seu comentário
+-- Pergunta Interativa: O que acontece se você substituir "Olá, Mundo!" por outra mensagem?
+
+---
+
+Slide 02 - Variáveis
+-- Variáveis armazenam um valor especificado no programa e podem mudar de valor se você alterar
+
+-- Declarando variáveis
+nome = "Jarbinha"
+idade = 33
+
+-- Imprimindo valores
+print("Nome: ", nome)
+print("Idade: ", idade)
+
+-- Em Lua não é necessário declarar o tipo da variável.
+-- Dependendo do que você atribuir, Lua vai inferir o tipo dela por debaixo dos panos.
+-- Teste Interativo: Tente atribuir um número decimal à variável 'idade' e veja o que acontece.
+
+---
+
+Slide 03 - Estruturas Condicionais
+-- Estruturas condicionais servem pra determinar se o programa deve fazer uma coisa OU outra dependendo da condição
+
+idade = 20
+
+if idade >= 18 then
+    print("Você é maior de idade.")
+else
+    print("Você é menor de idade.")
+end
+
+-- leia-se 
+-- "se idade maior ou igual a dezoito"
+-- "imprima Você é maior de idade"
+-- "senão for"
+-- "imprima Você é menor de idade"
+-- Pergunta Interativa: E se a variável idade for exatamente 18? O que o código imprimirá?
+
+---
+
+Slide 04 - Laços de Repetição
+-- Laços de repetição são uma maneira eficaz de automatizar o fazer de tarefas simples muitas vezes
+
+for i = 1, 5 do
+    print("Iteração: ", i)
+end
+-- ou
+i = 1
+while i <= 5 do
+    print("Contador: ", i)
+    i = i + 1
+end
+
+-- for é usado para contagens
+-- while executa enquanto a condição for verdadeira
+-- Teste Interativo: Modifique o limite superior do 'for' para 10. Quantas vezes ele vai iterar?
+
+---
+
+Slide 05 - Funções
+-- Funções otimizam o código pra você não ter de escrever os mesmos comandos sempre
+
+function cumprimentar(nome)
+    print("Olá, " .. nome .. "!")
+end
+
+cumprimentar("Bebel")
+
+-- Funções começam com function, nome e parâmetro e terminam com end
+-- O operador .. junta uma mensagem na outra (concatenação de strings)
+-- Pergunta Interativa: O que acontece se você chamar 'cumprimentar' sem passar um nome?
+
+---
+
+Slide 06 - Tables
+-- Tables em Lua são uma unidade poderosa capaz de armazenar diferentes campos com valores dentro dela
+
+-- Criando uma tabela
+pessoa = {
+    nome = "Bebel",
+    idade = 25
+}
+
+-- Acessando valores
+print(pessoa.nome)
+print(pessoa.idade)
+
+-- Tables são usadas para arrays e objetos em Lua
+-- Teste Interativo: Adicione um novo campo 'cidade' à tabela e acesse-o. Exemplo: pessoa.cidade = "Recife"

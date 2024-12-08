@@ -1,0 +1,5 @@
+{
+  "discordWebsocketPort": 2019,
+  "mainWebsocketPort": 2018,
+  "host": "localhost"
+}

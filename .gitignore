@@ -8,3 +8,5 @@
 **/luvit
 **/*.zip
 **/*.tar.gz
+**/configs/general.json
+editor/backend/interpreter/*
