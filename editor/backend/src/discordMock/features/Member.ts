@@ -27,7 +27,7 @@ export class Member {
     this.roles = this.roles.filter((r) => r.id !== role.id);
   }
 
-  public toDiscordJSON() {
+  public toDiscordJSON(): Record<string, unknown> {
     return {
       user: this.user.toDiscordJSON(),
       nick: this.nick,

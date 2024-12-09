@@ -14,7 +14,7 @@ export class Role {
     this.name = name;
   }
 
-  public toDiscordJSON() {
+  public toDiscordJSON(): Record<string, unknown> {
     return {
       id: this.id,
       name: this.name,

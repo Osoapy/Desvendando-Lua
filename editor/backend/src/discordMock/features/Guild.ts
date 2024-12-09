@@ -1,14 +1,11 @@
 import { DiscordSnowflake } from '@sapphire/snowflake';
-import { Channel } from './Channel';
-import { Member } from './Member';
-import { Role } from './Role';
-import { User } from './User';
+import { Channel, User, Role, Member } from './';
 
 export class Guild {
   public readonly id: string;
   public name: string;
   public icon: string;
-  public splash: string | null;
+  public splash: string | null = null;
   public ownerId: string;
   public afkChannelId: string | null = null;
   public afkTimeout: number = 0;
@@ -19,6 +16,7 @@ export class Guild {
   public explicitContentFilter: number = 0;
   public roles: Role[] = [];
   public emojis: any[] = [];
+  public stickers: any[] = [];
   public features: any[] = [];
   public mfaLevel: number = 0;
   public applicationId: string | null = null;
@@ -55,23 +53,35 @@ export class Guild {
     this.icon = icon;
     this.owner = owner;
     this.roles.push(new Role(this.id, '@everyone'));
-    this.channels.push(new Channel(this.id, 'general'));
+    this.channels.push(new Channel(this, 'general'));
     this.addMember(this.owner);
     this.ownerId = owner.id;
   }
 
   public addMember(user: User): Member {
+    if (this.getMember(user)) {
+      console.error('[DISCORD] User already in guild');
+      return this.getMember(user)!;
+    }
     const member = new Member(user);
     member.addRole(this.roles[0]!);
     this.members.push(member);
     return member;
   }
 
+  public getMembers(): Member[] {
+    return this.members;
+  }
+
+  public getMember(user: User): Member | null {
+    return this.members.find((m) => m.user.id === user.id) ?? null;
+  }
+
   public removeMember(user: User): void {
     this.members = this.members.filter((m) => m.user.id !== user.id);
   }
 
-  public guildCreateJSONEvent() {
+  public guildCreateJSONEvent(): Record<string, unknown> {
     return {
       joined_at: this.joinedAt,
       large: this.large,
@@ -84,10 +94,11 @@ export class Guild {
       stage_instances: this.stageInstances,
       guild_scheduled_events: this.guildScheduledEvents,
       soundboard_sounds: this.soundboardSounds,
+      unavailable: false,
     }
   }
 
-  public toDiscordJSON() {
+  public toDiscordJSON(): Record<string, unknown> {
     return {
       id: this.id,
       name: this.name,
@@ -103,6 +114,7 @@ export class Guild {
       explicit_content_filter: this.explicitContentFilter,
       roles: this.roles.map((role) => role.toDiscordJSON()),
       emojis: this.emojis,
+      stickers: this.stickers,
       features: this.features,
       mfa_level: this.mfaLevel,
       application_id: this.applicationId,
@@ -119,6 +131,7 @@ export class Guild {
       nsfw_level: this.nsfwLevel,
       premium_progress_bar_enabled: this.premiumProgressBarEnabled,
       safety_alerts_channel_id: this.safetyAlertsChannelId,
+      embed_enabled: false, // Legacy 
     };
   }
 }

@@ -1,6 +1,5 @@
 import { DiscordSnowflake } from '@sapphire/snowflake';
 import { randomName } from '../../utils';
-import { Guild } from "./Guild";
 import { User } from "./User";
 
 export class Application {
@@ -27,11 +26,15 @@ export class Application {
     this.flags = 0;
   }
 
-  public setBot(bot: User) {
+  public setBot(bot: User): void {
     this.bot = bot;
   }
 
-  public toDiscordJSON() {
+  public getBot(): User | null {
+    return this.bot;
+  }
+
+  public toDiscordJSON(): Record<string, unknown> {
     return {
       id: this.id,
       name: this.name,

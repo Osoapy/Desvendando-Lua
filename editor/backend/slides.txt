@@ -1,34 +1,32 @@
-Slide 01 - Primórdios
--- Meu primeiro programa em Lua
 
+
+-- Slide 01 - Introdução à Lua  
+-- Nosso primeiro programa em Lua:
 print("Olá, Mundo!")
 
--- Notem que o comando print() imprime as mensagens no terminal
--- Além disso, pra fazer comentários no programa basta colocar o -- e o seu comentário
--- Pergunta Interativa: O que acontece se você substituir "Olá, Mundo!" por outra mensagem?
+-- O comando print() exibe mensagens no terminal.
+-- Comentários começam com dois traços (--).
+-- Pergunta Interativa: O que acontece se você mudar "Olá, Mundo!" para outra frase?
 
----
 
-Slide 02 - Variáveis
--- Variáveis armazenam um valor especificado no programa e podem mudar de valor se você alterar
 
--- Declarando variáveis
+-- Slide 02 - Variáveis  
+-- Variáveis guardam valores e podem ser alteradas.
 nome = "Jarbinha"
 idade = 33
 
--- Imprimindo valores
+-- Exibindo os valores:
 print("Nome: ", nome)
 print("Idade: ", idade)
 
--- Em Lua não é necessário declarar o tipo da variável.
--- Dependendo do que você atribuir, Lua vai inferir o tipo dela por debaixo dos panos.
--- Teste Interativo: Tente atribuir um número decimal à variável 'idade' e veja o que acontece.
+-- Lua não exige declaração explícita de tipos.
+-- Ela infere o tipo da variável automaticamente.
+-- Teste Interativo: Atribua um número decimal a 'idade'. O que acontece?
 
----
 
-Slide 03 - Estruturas Condicionais
--- Estruturas condicionais servem pra determinar se o programa deve fazer uma coisa OU outra dependendo da condição
 
+-- Slide 03 - Estruturas Condicionais  
+-- Estruturas condicionais determinam o fluxo do programa com base em condições.
 idade = 20
 
 if idade >= 18 then
@@ -37,61 +35,139 @@ else
     print("Você é menor de idade.")
 end
 
--- leia-se 
--- "se idade maior ou igual a dezoito"
--- "imprima Você é maior de idade"
--- "senão for"
--- "imprima Você é menor de idade"
--- Pergunta Interativa: E se a variável idade for exatamente 18? O que o código imprimirá?
+-- Leia-se:
+-- "Se idade maior ou igual a dezoito, imprima 'Você é maior de idade'."
+-- "Senão, imprima 'Você é menor de idade'."
+-- Pergunta Interativa: E se a variável idade for exatamente 18? O que será exibido?
 
----
 
-Slide 04 - Laços de Repetição
--- Laços de repetição são uma maneira eficaz de automatizar o fazer de tarefas simples muitas vezes
 
+-- Slide 04 - Laços de Repetição  
+-- Laços automatizam a execução repetitiva de tarefas.
 for i = 1, 5 do
     print("Iteração: ", i)
 end
--- ou
+
 i = 1
 while i <= 5 do
     print("Contador: ", i)
     i = i + 1
 end
 
--- for é usado para contagens
--- while executa enquanto a condição for verdadeira
--- Teste Interativo: Modifique o limite superior do 'for' para 10. Quantas vezes ele vai iterar?
+-- For é usado para contagens. While executa enquanto a condição é verdadeira.
+-- Teste Interativo: Modifique o limite superior do 'for' para 10. Quantas vezes ele iterará?
 
----
 
-Slide 05 - Funções
--- Funções otimizam o código pra você não ter de escrever os mesmos comandos sempre
 
+-- Slide 05 - Funções  
+-- Funções otimizam a execução do código e evitam repetições.
 function cumprimentar(nome)
     print("Olá, " .. nome .. "!")
 end
 
 cumprimentar("Bebel")
 
--- Funções começam com function, nome e parâmetro e terminam com end
--- O operador .. junta uma mensagem na outra (concatenação de strings)
+-- Funções começam com 'function', têm parâmetros e terminam com 'end'.
+-- O operador '..' concatena strings.
 -- Pergunta Interativa: O que acontece se você chamar 'cumprimentar' sem passar um nome?
 
----
 
-Slide 06 - Tables
--- Tables em Lua são uma unidade poderosa capaz de armazenar diferentes campos com valores dentro dela
 
--- Criando uma tabela
+-- Slide 06 - Tables  
+-- Tables são usadas para armazenar dados, como listas e objetos.
 pessoa = {
     nome = "Bebel",
     idade = 25
 }
 
--- Acessando valores
+-- Acessando valores:
 print(pessoa.nome)
 print(pessoa.idade)
 
--- Tables são usadas para arrays e objetos em Lua
--- Teste Interativo: Adicione um novo campo 'cidade' à tabela e acesse-o. Exemplo: pessoa.cidade = "Recife"
+-- Tables podem ser usadas para representar arrays ou objetos.
+-- Teste Interativo: Adicione o campo 'cidade' à tabela e acesse-o. Exemplo: pessoa.cidade = "Recife".
+
+
+
+-- Slide 07 - Inputs  
+-- Inputs permitem capturar dados do usuário durante a execução.
+print("Digite seu nome: ")
+nome = io.read()
+
+print("Digite sua idade:")
+idade = io.read("*n") -- '*n' lê números.
+
+-- Exibindo os dados recebidos:
+print("Olá, " .. nome .. "! Você tem " .. idade .. " anos.")
+
+-- Pergunta Interativa: O que acontece se o usuário digitar texto ao invés de um número para idade?
+
+
+
+-- Slide 08 - Tipos de Dados  
+-- Em Lua, existem vários tipos de dados básicos, como strings, números, booleans, nil, etc.
+numero = 42            -- Um número inteiro.
+decimal = 3.14         -- Um número decimal (ponto flutuante).
+booleano = true        -- Um valor booleano (verdadeiro ou falso).
+nulo = nil             -- O valor nil é usado para representar a ausência de valor.
+
+-- Teste Interativo: Tente fazer uma operação aritmética com um booleano. O que acontece?
+
+
+
+-- Slide 09 - Metatables e Métodos  
+-- Metatables permitem modificar o comportamento de tabelas em Lua.
+pessoa = { nome = "Carlos" }
+
+-- Definindo uma metatable com um método
+metatable = {
+    saudacao = function(self)
+        return "Olá, " .. self.nome
+    end
+}
+
+-- Associando a metatable à pessoa
+setmetatable(pessoa, metatable)
+
+-- Chamando o método
+print(pessoa:saudacao()) -- "Olá, Carlos"
+
+
+
+-- Slide 10 - Erros e Debugging  
+-- Em Lua, podemos capturar erros com a função pcall (protected call).
+local status, err = pcall(function() 
+    -- Aqui você pode colocar código que pode gerar erro
+    error("Este é um erro de teste.")
+end)
+
+if not status then
+    print("Erro capturado: " .. err)
+else
+    print("Código executado com sucesso!")
+end
+
+-- Pergunta Interativa: Como podemos usar pcall para evitar que um erro interrompa o programa?
+
+
+
+-- Slide 11 - Discordia
+-- Como criar um bot no Discord com Lua:
+local discordia = require('discordia') -- Biblioteca para bots no Discord usando Luvit.
+local client = discordia.Client() -- Iniciando o bot.
+
+client:on('ready', function()
+    print('Logged in as ' .. client.user.username) -- Exibe quando o bot está ativo.
+end)
+
+client:on('messageCreate', function(message)
+    if message.content == '!ping' then -- Se o usuário digitar '!ping', responda 'Pong!'.
+        message.channel:send('Pong!')
+    elseif message.content == '!olamundo' then -- Se o usuário digitar '!olamundo', responda 'Olá, Mundo!'.
+        message.channel:send('Olá, Mundo!')
+    end
+end)
+
+client:run('Bot INSERT_TOKEN_HERE') -- Insira o token do seu bot.
+
+-- Pergunta Interativa: O que acontece se você adicionar mais condições ao bot para responder outros comandos?

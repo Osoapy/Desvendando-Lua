@@ -1,4 +1,4 @@
-import { IBotMessage, IBotSettings, IUserMessage, IMessageStruct } from './interfaces';
+import { IMessageStruct } from './interfaces';
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
 import { Engine, Logger } from '@promisepending/logger.js';
 import { LoggableClass } from './utils';
@@ -6,8 +6,7 @@ import { randomUUID } from 'crypto';
 import path from 'path';
 import fs from 'fs';
 import ws from 'ws';
-import { DiscordServer } from './discordMock/DiscordServer';
-import { Application, Guild, User } from './discordMock/features';
+import { DiscordServer, Application, Guild, User } from './discordMock/';
 import { Main } from 'src';
 
 export class FakeDiscord extends LoggableClass {
@@ -51,12 +50,19 @@ export class FakeDiscord extends LoggableClass {
     return this.uuid;
   }
 
+  getUserApplication(): Application | undefined {
+    return this.botApplication;
+  }
+
   sendEvent(eventName: string, data: any) {
     this.socket.send(JSON.stringify({ name: eventName, data }));
   }
 
+  getDiscordManager(): DiscordServer {
+    return this.discordManager;
+  }
+
   messageHandler(message: string) {
-    console.log(message.toString());
     let msg: IMessageStruct | null = null;
     try {
       msg = JSON.parse(message);
@@ -70,6 +76,7 @@ export class FakeDiscord extends LoggableClass {
     else if (msg.name === 'stopCodeExecution') this.stopCodeExecution();
     else if (msg.name === 'mensagem') this.handleClientMessage(msg.data.toString());
     else if (msg.name === 'appData') this.createOrUpdateApplication(msg.data); 
+    else if (msg.name === 'botData') this.createOrUpdateBot(msg.data);
 
     if (this.userName) this.sendStatus();
   }
@@ -81,6 +88,7 @@ export class FakeDiscord extends LoggableClass {
       this.userName = name;
       this.discordUser = this.discordManager.createUser(this, this.userName, this.icon);
       this.userGuild = this.discordManager.createGuild(this, `Guild do ${this.userName}`, '0');
+      this.sendEvent('channelId', this.userGuild.channels[0]?.id);
     }
   }
 
@@ -99,6 +107,7 @@ export class FakeDiscord extends LoggableClass {
       icon: this.icon,
       content: message,
     });
+    this.discordUser?.sendMessage(this.userGuild!.channels[0]!, message);
   }
 
   handleBotMessage(message: string) {
@@ -109,18 +118,27 @@ export class FakeDiscord extends LoggableClass {
     });
   }
 
-  createOrUpdateApplication(data: { name: string, description: string}) {
+  createOrUpdateApplication(data: { name: string, description: string, botName: string }) {
     if (!this.botApplication) {
       this.botApplication = this.discordManager.createApplication(data.name, data.description, this.discordUser!);
-      const botPFP = Math.floor(Math.random() * 6);
-      this.discordBotUser = this.discordManager.createBot(this, data.name, botPFP, this.botApplication);
-      this.userGuild?.addMember(this.discordBotUser);
-      this.discordBotUser.sendMessage(this.userGuild?.channels[0]!,`Olá eu sou ${data.name}`);
     } else {
       this.botApplication.name = data.name;
       this.botApplication.description = data.description;
+    }
+    this.sendEvent('ApplicationEvent', null);
+  }
+
+  createOrUpdateBot(data: { name: string }) {
+    if (!this.discordBotUser) {
+      const botPFP = Math.floor(Math.random() * 6);
+      this.discordBotUser = this.discordManager.createBot(this, data.name, botPFP, this.botApplication!);
+      this.userGuild?.addMember(this.discordBotUser);
+      this.discordBotUser.sendMessage(this.userGuild?.channels[0]!,`Olá eu sou ${data.name}`);
+      this.sendEvent('botToken', this.discordBotUser.getToken());
+    } else {
       this.discordBotUser.username = data.name;
     }
+    this.sendEvent('updateBot', { name: this.discordBotUser.username, icon: this.discordBotUser.avatar });
   }
 
   getBotUser(): User | undefined {
@@ -131,38 +149,48 @@ export class FakeDiscord extends LoggableClass {
     return this.discordUser;
   }
 
+  formatLogMessage(message: any): string {
+    const errorMsg = message.toString();
+    const splitEM = errorMsg.split('stack ABOBORAtraceback:');
+    const finalMsg = splitEM[0].replace(/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})\s\|\s/g, '');
+    return finalMsg;
+  }
+
   runInterpreter(code: string) {
-    if (this.isRunning) this.stopCodeExecution();
+    if (this.isRunning) return this.stopCodeExecution();
+    this.isRunning = true;
     // write the code to a file
-    const userCodeFile = path.resolve(__dirname, '..', 'cache', this.uuid + '.lua');
-    if (!fs.existsSync(path.resolve(__dirname, '..', 'cache'))) fs.mkdirSync(path.resolve(__dirname, '..', 'cache'));
+    const userCodeFile = path.resolve(__dirname, '..', '..', 'interpreter', 'cache', this.uuid + '.lua');
+    if (!fs.existsSync(path.resolve(__dirname, '..', '..', 'interpreter', 'cache'))) fs.mkdirSync(path.resolve(__dirname, '..', '..', 'interpreter', 'cache'));
     fs.writeFileSync(userCodeFile, code);
 
     this.sendEvent('startingCodeExecution', null);
 
     // creates a sub-process to run the interpreter
-    this.runnerProcess = spawn(path.resolve(__dirname, '..', 'interpreter', 'luvit'), [userCodeFile], { stdio: 'pipe', cwd: path.resolve(__dirname, '..', 'interpreter') });
+    this.runnerProcess = spawn(path.resolve(__dirname, '..', '..', 'interpreter', 'luvit'), [userCodeFile, path.resolve(__dirname, '..', '..', 'interpreter')], { stdio: 'pipe', cwd: path.resolve(__dirname, '..', '..', 'interpreter') });
     this.runnerProcess.stdout.on('data', (data: any) => {
-      this.sendEvent('interpreterOutput', data.toString());
+      this.sendEvent('interpreterOutput', this.formatLogMessage(data));
     });
 
     this.runnerProcess.stderr.on('data', (data: any) => {
-      this.sendEvent('interpreterOutputErr', data.toString());
+      this.sendEvent('interpreterOutputErr', this.formatLogMessage(data));
     });
 
     this.runnerProcess.on('close', (code: number) => {
       this.sendEvent('interpreterClosed', code);
+      this.isRunning = false;
     });
   }
 
   stopCodeExecution() {
+    this.isRunning = false;
     if (this.runnerProcess) this.runnerProcess.kill();
   }
 
   onDisconnect() {
     this.logger.info('Client disconnected!');
     // delete their cache file
-    const userCodeFile = path.resolve(__dirname, '..', 'cache', this.uuid + '.lua');
+    const userCodeFile = path.resolve(__dirname, '..', '..', 'interpreter', 'cache', this.uuid + '.lua');
     if (this.runnerProcess) this.runnerProcess.kill();
     if (fs.existsSync(userCodeFile)) fs.unlinkSync(userCodeFile);
     if (this.discordUser) this.discordManager.deleteUser(this.discordUser);

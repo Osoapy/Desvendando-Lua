@@ -30,7 +30,7 @@
     <div id="pageContent" class="unselectable">
       <div id="TopBar">
         <div id="TopBarLeft">
-          <button id="runButton" class="button">Run</button>
+          <button id="runButton" class="button">Executar</button>
         </div>
         <div id="TopBarRight">
           <button id="themeSwitch" class="button">Modo Claro</button>
@@ -83,10 +83,47 @@
                 <h2 class='createAppTitle'>Criar Aplicação</h2>
                 <button id="createApplication" class="plus-icon simple-button"><div></div><div></div></button>
               </div>
-              <div id="devPanelContent" class="hidden vertical">
-                <input id="applicationName" placeholder="Nome aplicação">
-                <input id="applicationDescription" placeHolder="Descrição">
-                <button id="createOrUpdateApp">Criar ou atualizar</button>
+              <div id="devPanelContent" class="hidden devPanelContent">
+                <div id="fakeDevPanelContentTabs" class="fakeDevPanelContent">
+                  <button id="ShowApplicationPanel" class="sideBarButton active">Informação Geral</button>
+                  <button id="ShowBotPanel" class="sideBarButton">Bot</button>
+                </div>
+                <div id="fakeDevPanelContentBody" class="fakeDevPanelContent">
+                  <div id="ApplicationPage" class="fakeDevPanelContentBodyPages">
+                    <div class="formInput">
+                      <label for="applicationNameapplicationName" class="formInputLabel">Nome da aplicação</label>
+                      <input id="applicationName" class="formInputElement" type="text" placeholder=" ">
+                    </div>
+                    <div class="formInput">
+                      <label for="applicationDescription" class="formInputLabel">Descrição da aplicação</label>
+                      <textarea id="applicationDescription" class="formInputElement" placeholder=" "></textarea>
+                    </div>
+                  </div>
+                  <div id="BotPage" class="hidden fakeDevPanelContentBodyPages">
+                    <div id="ApplicationNotPublished" class="center">
+                      <h3 id="ApplicationNotPublishedText">Publique a aplicação para poder acessar esta página</h3>
+                    </div>
+                    <div id="BotEditPage" class="hidden">
+                      <div id="BotPfpAndName">
+                        <img id="botPfp" src="">
+                        <div class="formInput">
+                          <label for="botName" class="formInputLabel">Nome do Bot</label>
+                          <input id="botName" class="formInputElement" type="text" placeholder=" ">
+                        </div>
+                      </div>
+                      <div>
+                        <textarea readonly id="botToken" class="readOnlyTextArea">Token Oculto</textarea>
+                        <button id="revelToken">Revelar Token</button>
+                      </div>
+                      <label for="ChannelId" class="readOnlyTextAreaLabel">Id do canal de texto:</label>
+                      <textarea readonly id="ChannelId" class="readOnlyTextArea">Id do canal de texto</textarea>
+                    </div>
+                  </div>
+                </div>
+                <div id="SaveChangesPopup">
+                  <p id="saveChangesMessage">Publique a aplicação para registra-la</p>
+                  <button id="createOrUpdateApp">Publicar Aplicação</button>
+                </div>
               </div>
             </div>
           </div>

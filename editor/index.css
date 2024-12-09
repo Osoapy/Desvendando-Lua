@@ -1,5 +1,7 @@
 :root {
   --gray-300: #363636;
+  --gray-500: #616161;
+  --gray-700: #9c9c9c;
   --gray-900: #ebebeb;
 
   --blue-300: #40444b;
@@ -22,6 +24,22 @@
 
   --red-900: #ff2222;
   --red-t3: #ff222233;
+
+  --theme-red-dark: #ff5555;
+  --theme-red-light: #da0000;
+  --theme-green-dark: #55ff55;
+  --theme-green-light: #00c700;
+  --theme-yellow-dark: #ffff55;
+  --theme-yellow-light: #ffff55;
+  --theme-blue-dark: #5555ff;
+  --theme-blue-light: #5555ff;
+  --theme-magenta-dark: #ff55ff;
+  --theme-magenta-light: #ff55ff;
+  --theme-cyan-dark: #55ffff;
+  --theme-cyan-light: #55ffff;
+  --theme-white-dark: #ffffff;
+  --theme-white-light: #000000;
+  
 }
 
 * {
@@ -71,6 +89,20 @@ html, body {
 
   --errorDialog-bg: var(--red-t3);
   --errorDialog-border: var(--red-900);
+  --dark-editor-text: var(--gray-500);
+
+  --text-red: var(--theme-red-dark);
+  --text-green: var(--theme-green-dark);
+  --text-yellow: var(--theme-yellow-dark);
+  --text-blue: var(--theme-blue-dark);
+  --text-magenta: var(--theme-magenta-dark);
+  --text-cyan: var(--theme-cyan-dark);
+  --text-white: var(--theme-white-dark);
+
+  --input-color-border: var(--input-border-color);
+  --input-color-text: var(--loginForm-color);
+  --input-color-outline: var(--accent-color);
+  --input-color-background: var(--loginForm-bg);
 }
 
 .light {
@@ -104,6 +136,20 @@ html, body {
 
   --errorDialog-bg: var(--red-t3);
   --errorDialog-border: var(--red-900);
+  --dark-editor-text: var(--gray-700);
+
+  --text-red: var(--theme-red-light);
+  --text-green: var(--theme-green-light);
+  --text-yellow: var(--theme-yellow-light);
+  --text-blue: var(--theme-blue-light);
+  --text-magenta: var(--theme-magenta-light);
+  --text-cyan: var(--theme-cyan-light);
+  --text-white: var(--theme-white-light);
+
+  --input-color-border: var(--input-border-color);
+  --input-color-text: var(--loginForm-color);
+  --input-color-outline: var(--accent-color);
+  --input-color-background: var(--loginForm-bg);
 }
 
 #pageContent {
@@ -333,14 +379,15 @@ html, body {
 }
 
 .formInputElement {
+  resize: vertical;
   width: 100%;
   padding: var(--padding-block) var(--padding-inline);
   border-radius: 0.5rem;
-  border: 1px solid var(--input-border-color);
-  outline: var(--accent-color);
+  border: 1px solid var(--input-color-border);
+  outline: var(--input-color-outline);
   font-size: 1em;
-  background: transparent;
-  color: var(--loginForm-color);
+  background: var(--input-color-background);
+  color: var(--input-color-text);
 }
 
 .formInputLabel {
@@ -349,15 +396,16 @@ html, body {
   left: calc(var(--padding-inline) / 2);
   z-index: 2;
   pointer-events: none;
-  background: var(--loginForm-bg);
+  background: var(--input-color-background);
+  color: var(--input-color-text);
   line-height: normal;
-  transition: top 0.1s ease, opacity 0.5s ease;
+  transition: transform 0.1s ease, opacity 0.5s ease;
   padding-inline: var(--padding-inline);
   opacity: 0.5;
 }
 
 .formInput:has(.formInputElement:not(:placeholder-shown)) .formInputLabel {
-  top: calc(-50% + var(--padding-block));
+  transform: translateY(-100%);
   opacity: 1;
 }
 
@@ -689,4 +737,279 @@ html, body {
 
 .createAppTitle {
   color: var(--editor-text);
+}
+
+.timestamp {
+  position: sticky;
+  top: 0;
+  height: fit-content;
+  font-size: 0.85rem;
+  color: var(--dark-editor-text);
+}
+
+.terminalLine {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  width: 100%;
+  padding-block: 0.15rem;
+}
+
+.terminalLine:nth-child(even) {
+  background: var(--editor-topbar-bg);
+  box-shadow: -2rem 0 0 0 var(--editor-topbar-bg), 2rem 0 0 0 var(--editor-topbar-bg);
+}
+
+.messageContent.error { 
+  color: var(--errorDialog-border);
+}
+
+.red {
+  color: var(--text-red);
+}
+
+.green {
+  color: var(--text-green);
+}
+
+.yellow {
+  color: var(--text-yellow);
+}
+
+.blue {
+  color: var(--text-blue);
+}
+
+.magenta {
+  color: var(--text-magenta);
+}
+
+.cyan {
+  color: var(--text-cyan);
+}
+
+.white {
+  color: var(--text-white);
+}
+
+.bgRed {
+  background: var(--text-red);
+}
+
+.bgGreen {
+  background: var(--text-green);
+}
+
+.bgYellow {
+  background: var(--text-yellow);
+}
+
+.bgBlue {
+  background: var(--text-blue);
+}
+
+.bgMagenta {
+  background: var(--text-magenta);
+}
+
+.bgCyan {
+  background: var(--text-cyan);
+}
+
+.bgWhite {
+  background: var(--text-white);
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.reverse {
+  background: var(--editor-text);
+  color: var(--editor-bg);
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.devPanelContent {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  position: relative;
+  width: 100%;
+  --saveChangesHeight: 3rem;
+}
+
+#SaveChangesPopup {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: var(--saveChangesHeight);
+  background: var(--black);
+  margin-block: 0.5rem;
+  border-radius: 0.5rem;
+  color: var(--white);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  transition: bottom 0.5s ease, opacity 0.5s ease;
+}
+
+#createOrUpdateApp {
+  background: var(--green-300);
+  color: var(--white);
+  border: 0.25rem solid var(--green-900);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  word-break: keep-all;
+  white-space: pre;
+  transition: background 0.1s ease, color 0.1s ease, filter 0.1s ease;
+}
+
+#createOrUpdateApp:hover {
+  background: var(--green-900);
+  color: var(--black);
+}
+
+#createOrUpdateApp:active {
+  filter: brightness(0.5);
+}
+
+#fakeDevPanelContentTabs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-block: 1rem 0;
+  width: min-content;
+  border-right: 1px solid var(--discord-bg-500);
+  padding-right: 0.5rem;
+}
+
+.fakeDevPanelContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  height: calc(100% - var(--saveChangesHeight) - 2.5rem);
+  position: relative;
+}
+
+.fakeDevPanelContent > div {
+  width: 100%;
+  animation: fakeDevPanelContentShow 0.5s ease-out;
+}
+
+.sideBarButton {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 0;
+  font-size: 1rem;
+  background: var(--discord-background);
+  color: var(--active-tab-txt);
+  cursor: pointer;
+}
+
+.sideBarButton.active {
+  background: var(--discord-bg-500);
+}
+
+@keyframes fakeDevPanelContentShow {
+  from {
+    position: absolute;
+    z-index: 99;
+    top: 5%;
+    opacity: 0;
+  }
+
+  to {
+    position: absolute;
+    z-index: 99;
+    top: 0%;
+    opacity: 1;
+  }
+}
+
+.fakeDevPanelContentBodyPages {
+  padding-left: 0.5rem;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  --input-color-border: var(--discord-bg-500);
+  --input-color-text: var(--editor-text);
+  --input-color-outline: var(--discord-bg-500);
+  --input-color-background: var(--active-tab-bg);
+}
+
+#botPfp {
+  width: 5rem;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+#ApplicationNotPublishedText {
+  color: var(--editor-text);
+}
+
+#BotPfpAndName {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+#BotEditPage {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.readOnlyTextArea {
+  border: 1px solid var(--discord-bg-500);
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--editor-text);
+  font-size: 0.85rem;
+  padding: 0.25rem;
+  min-height: 4rem;
+}
+
+.readOnlyTextAreaLabel {
+  color: var(--editor-text);
+  margin-bottom: -1rem;
+}
+
+#revelToken {
+  border: 1px solid var(--discord-bg-500);
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--editor-text);
+  font-size: 0.85rem;
+  padding: 0.25rem;
+  cursor: pointer;
+  transition: background 0.1s ease;
+}
+
+#revelToken:hover {
+  background: var(--discord-bg-500);
+}
+
+#revelToken:active {
+  background: var(--accent-color);
+}
+
+.occult {
+  bottom: -15vh !important;
+  opacity: 0;
+  pointer-events: none;
 }
