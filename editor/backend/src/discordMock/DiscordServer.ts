@@ -1,5 +1,5 @@
 import { Application, Guild, User } from './features';
-import { FakeDiscord } from 'src/FakeDiscord';
+import { FakeDiscord } from '../FakeDiscord';
 import { WebSocketServer } from './servers';
 
 export class DiscordServer {

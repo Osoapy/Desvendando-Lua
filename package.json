@@ -2,13 +2,13 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "build/src/index.js",
-  "module": "build/src/index.js",
+  "main": "editor/backend/build/src/index.js",
+  "module": "editor/backend/build/src/index.js",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsc && node ./build/src/index.js",
-    "start": "node ./build/index.js"
+    "dev": "tsc && node ./editor/backend/build/src/index.js",
+    "start": "tsc && node ./editor/backend/build/src/index.js"
   },
   "author": "",
   "license": "MIT",

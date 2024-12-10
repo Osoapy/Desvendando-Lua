@@ -1,5 +1,5 @@
 import { IMessageStruct } from './interfaces';
-import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
+import { spawn } from 'child_process';
 import { Engine, Logger } from '@promisepending/logger.js';
 import { LoggableClass } from './utils';
 import { randomUUID } from 'crypto';
@@ -7,10 +7,11 @@ import path from 'path';
 import fs from 'fs';
 import ws from 'ws';
 import { DiscordServer, Application, Guild, User } from './discordMock/';
-import { Main } from 'src';
+import { Main } from './';
+import { Stream } from 'stream';
 
 export class FakeDiscord extends LoggableClass {
-  private runnerProcess: ChildProcessWithoutNullStreams;
+  private runnerProcess: any;
   private isRunning: boolean;
   private userName: string;
   private logger: Logger;
@@ -77,6 +78,7 @@ export class FakeDiscord extends LoggableClass {
     else if (msg.name === 'mensagem') this.handleClientMessage(msg.data.toString());
     else if (msg.name === 'appData') this.createOrUpdateApplication(msg.data); 
     else if (msg.name === 'botData') this.createOrUpdateBot(msg.data);
+    else if (msg.name === 'terminalMessage') this.terminalMessage(msg.data.toString());
 
     if (this.userName) this.sendStatus();
   }
@@ -162,12 +164,33 @@ export class FakeDiscord extends LoggableClass {
     // write the code to a file
     const userCodeFile = path.resolve(__dirname, '..', '..', 'interpreter', 'cache', this.uuid + '.lua');
     if (!fs.existsSync(path.resolve(__dirname, '..', '..', 'interpreter', 'cache'))) fs.mkdirSync(path.resolve(__dirname, '..', '..', 'interpreter', 'cache'));
-    fs.writeFileSync(userCodeFile, code);
+    let userCode = '';
+    userCode += 'os.execute = function(...) print("os.execute está desativado!") return nil, nil, nil end\n';
+    userCode += `local ffi = require('ffi')
+ffi.cdef[[
+  int fcntl(int fd, int cmd, ...);
+  int ioctl(int fd, unsigned long request, ...);
+  static const int F_GETFL = 3;
+  static const int F_SETFL = 4;
+  static const int O_NONBLOCK = 0x800;
+]]
+local fd = 0 -- stdin
+local flags = ffi.C.fcntl(fd, ffi.C.F_GETFL)
+ffi.C.fcntl(fd, ffi.C.F_SETFL, bit.band(flags, bit.bnot(ffi.C.O_NONBLOCK)))\n`;
+    userCode += code;
+
+    fs.writeFileSync(userCodeFile, userCode);
 
     this.sendEvent('startingCodeExecution', null);
 
     // creates a sub-process to run the interpreter
-    this.runnerProcess = spawn(path.resolve(__dirname, '..', '..', 'interpreter', 'luvit'), [userCodeFile, path.resolve(__dirname, '..', '..', 'interpreter')], { stdio: 'pipe', cwd: path.resolve(__dirname, '..', '..', 'interpreter') });
+    this.runnerProcess = spawn(path.resolve(__dirname, '..', '..', 'interpreter', 'luvit'), [userCodeFile], { stdio: 'pipe', cwd: path.resolve(__dirname, '..', '..', 'interpreter'), shell: true });
+    
+    this.runnerProcess.stdin.setDefaultEncoding('utf-8');
+    this.runnerProcess.stdin.on('error', (err: any) => {
+      this.logger.error('Error on stdin:', err);
+    });
+
     this.runnerProcess.stdout.on('data', (data: any) => {
       this.sendEvent('interpreterOutput', this.formatLogMessage(data));
     });
@@ -185,6 +208,12 @@ export class FakeDiscord extends LoggableClass {
   stopCodeExecution() {
     this.isRunning = false;
     if (this.runnerProcess) this.runnerProcess.kill();
+  }
+
+  terminalMessage(message: string) {
+    if (this.runnerProcess && this.runnerProcess.stdin.writable) {
+      this.runnerProcess.stdin.write(message + '\n');
+    }
   }
 
   onDisconnect() {

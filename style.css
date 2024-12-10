@@ -40,6 +40,11 @@
   isolation: isolate;
 }
 
+*::selection {
+  background: var(--corSecundaria);
+  color: var(--corPrimaria);
+}
+
 /* Tags */
 html, body {
   font-family: var(--fontePadrao), sans-serif;
@@ -231,6 +236,25 @@ b, h1, h2, strong {
 #footerText {
   max-width: 80%;
   margin-inline: auto;
+}
+
+.underlined {
+  position: relative;
+  word-break: keep-all;
+  -webkit-text-stroke-width: 4px;
+  -webkit-text-stroke-color: var(--corBranco);
+  paint-order: stroke fill;
+}
+
+.underlined::before {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: -2px;
+  width: calc(100% + 2px);
+  height: 2px;
+  background: var(--corPrimaria);
+  z-index: -1;
 }
 
 /* Responsividade */

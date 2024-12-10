@@ -1,5 +1,6 @@
-const backendWebsocketPort = 2018;
-const backendURLWebsocket = window.location.hostname;
+const safeConnection = window.location.protocol.includes('s');
+const BU = `${safeConnection?'ws.':''}${location.hostname}`;
+const backendWebsocketPort = safeConnection ? 443 : 2018;
 
 const statusQuotes = ['Nadando no rasinho da internet', 'Https Error','Você não pode mudar seu passado, mas pode estragar seu futuro', 'Só erra quem tenta', 'Quem passa direto é trem, aqui é recuperação', 'Quem passa direto é busão, aqui é recuperação', 'Três pratos de trigo para três tigres tristes', 'O rato roeu a roupa do rei de Roma', 'Undefined', '[Object object]', 'Penso logo desisto', 'Odeio HTTP 2.0'];
 
@@ -109,14 +110,33 @@ function LogMessages(icon, name, message){
   }
 }
 
+let lastActive = '';
 // prevents user from tabbing into elements that should not be selectable
 window.addEventListener('focusin', (e) => {
-  if (!!document.activeElement.closest('.unselectable')) {
-    const item = document.body.querySelector(':not(.unselectable):not([style*="display:none"]):not([style*="display: none"])');
-    if (item) {
-      const firstFocusableElement = item.querySelector('input, select, textarea, button, object, a, area[href], [tabindex]')
+  if (document.activeElement.closest('.unselectable') && !document.activeElement.closest('.forcedSelectable')) {
+    const closesForced = document.activeElement.closest('.unselectable').querySelector('.forcedSelectable');
+    const item = document.body.querySelector(':not(.unselectable):not([style*="display:none"]):not([style*="display: none"]), .forcedSelectable');
+    if (closesForced || item) {
+      const firstFocusableElement = (closesForced && closesForced.id !== lastActive) ? closesForced : item.querySelector('input, select, textarea, button, object, a, area[href], [tabindex], .forcedSelectable')
+      lastActive = firstFocusableElement.id;
       if (firstFocusableElement) firstFocusableElement.focus();
     }
+  }
+});
+
+document.getElementById('editor').addEventListener('keydown', (e) => {
+  if (e.shiftKey && e.key === 'Tab') {
+    let indexPos = monaco.editor.getEditors()[0].getPosition().column;
+    if (indexPos === 1) {
+      e.preventDefault();
+  
+      const focusableElement = document.getElementById('TopBar').querySelectorAll('input, select, textarea, button, object, a, area[href], [tabindex], .forcedSelectable')
+      if (focusableElement.length > 0) focusableElement[focusableElement.length - 1].focus();
+    }
+  } else if (e.key === 'Escape') {
+    e.preventDefault();
+    const focusableElement = document.getElementById('console').querySelector('input, select, textarea, button, object, a, area[href], [tabindex], .forcedSelectable')
+    if (focusableElement) focusableElement.focus();
   }
 });
 
@@ -153,6 +173,7 @@ function colorizeTerminal(el, message) {
     const span = document.createElement('span');
     span.innerText = message;
     el.appendChild(span);
+    return;
   }
   message.split('\u001b[').forEach((frag) => {
     const endOfData = frag.indexOf('m');
@@ -190,18 +211,20 @@ function colorizeTerminal(el, message) {
 
 let isRunningCode = false;
 
-function renderTerminalFragment(terminal, textFragment, err) {
+function renderTerminalFragment(terminal, textFragment, err, hideTimeStamp) {
   if (!textFragment) return;
   const parsedFrag = parseLogMessage(textFragment);
   if (!parsedFrag) return;
   const p = document.createElement('p');
   p.classList.add('terminalLine');
   
-  const tiMp = new Date();
-  const timestamp = document.createElement('span');
-  timestamp.classList.add('timestamp');
-  timestamp.textContent = `[${getNumberWithZeros(tiMp.getHours(), 2)}:${getNumberWithZeros(tiMp.getMinutes(), 2)}:${getNumberWithZeros(tiMp.getSeconds(), 2)}] `;
-  p.appendChild(timestamp);
+  if (!hideTimeStamp) {
+    const tiMp = new Date();
+    const timestamp = document.createElement('span');
+    timestamp.classList.add('timestamp');
+    timestamp.textContent = `[${getNumberWithZeros(tiMp.getHours(), 2)}:${getNumberWithZeros(tiMp.getMinutes(), 2)}:${getNumberWithZeros(tiMp.getSeconds(), 2)}] `;
+    p.appendChild(timestamp);
+  }
 
   const contentMessage = document.createElement('span');
   contentMessage.classList.add('messageContent');
@@ -250,7 +273,7 @@ class Client {
 
     ///////////////////
 
-    this.websocket = new WebSocket(`ws://${backendURLWebsocket}:${backendWebsocketPort}`);
+    this.websocket = new WebSocket(`ws${safeConnection ? 's' : ''}://${BU}:${backendWebsocketPort}`);
     this.websocket.addEventListener('message', this.messageHandler.bind(this));
 
     document.getElementById('loginButton').addEventListener('click',this.connectToServer.bind(this));
@@ -278,6 +301,23 @@ class Client {
         }
       }
     })
+
+    const terminalInput = document.getElementById('terminalInput');
+    document.getElementById('terminalInputSubmit').addEventListener('click', () => {
+      this.sendMessageToTerminal(terminalInput.value);
+      terminalInput.value = '';
+    });
+    terminalInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        this.sendMessageToTerminal(terminalInput.value);
+        terminalInput.value = '';
+      }
+    })
+  }
+
+  sendMessageToTerminal(message) {
+    this.sendEvent('terminalMessage', message);
+    renderTerminalFragment(document.getElementById('consoleContent'), '> ' + message, false, true);
   }
 
   devPanelUpdate(has) {
@@ -357,6 +397,7 @@ class Client {
         this.onStartCodeExecution();
         break;
       case 'interpreterOutput':
+        console.log(msg);
         this.showInTerminal(msg.data);
         break;
       case 'interpreterOutputErr':
@@ -413,7 +454,7 @@ const client = new Client();
 
 function toggleTheme(load) {
   if (!load) currentTheme = !currentTheme;
-  else currentTheme = localStorage.getItem('theme') === 'dark';
+  else currentTheme = !(localStorage.getItem('theme') === 'light');
   document.getElementById('themeSwitch').innerText = currentTheme ? 'Modo Claro' : 'Modo Escuro';
   document.body.classList.toggle('light', !currentTheme);
   client.switchTheme(currentTheme);
@@ -485,4 +526,57 @@ document.getElementById('revelToken').addEventListener('click', (e) => {
     document.getElementById('botToken').innerText = showBotToken ? client.botToken : 'Token Oculto'; 
     e.target.innerText = !showBotToken ? 'Revelar Token' : 'Esconder Token';
   }
+});
+
+let showDiscord = false;
+document.getElementById('discordSwitch').addEventListener('click', (e) => {
+  showDiscord = !showDiscord;
+  document.getElementById('editorBox').classList.toggle('expand', !showDiscord);
+  document.getElementById('fakeDiscord').classList.toggle('hidden', !showDiscord);
+  e.target.innerText = showDiscord ? 'Esconder Chat' : 'Mostrar Chat';
+  e.target.classList.toggle('enabled', showDiscord);
+  client.editor.layout();
+  const interval = setInterval(() => {
+    client.editor.layout();
+  }, 10);
+  setTimeout(() => {
+    clearInterval(interval);
+  }, 500);
+});
+
+let fontSize = 1;
+function updateFontSize() {
+  let options = {"fontSize": 12 + (fontSize*2)}
+  monaco.editor.getEditors()[0].updateOptions(options);
+}
+
+document.getElementById('IncreaseFont').addEventListener('click', () => {
+  fontSize++;
+  updateFontSize()
+});
+
+document.getElementById('DecreaseFont').addEventListener('click', () => {
+  fontSize--;
+  updateFontSize()
+});
+
+document.getElementById('ResetFont').addEventListener('click', () => {
+  fontSize = 1;
+  updateFontSize()
+});
+
+let expandedTerminal = false;
+document.getElementById('expandTerminal').addEventListener('click', (e) => {
+  expandedTerminal = !expandedTerminal;
+  document.getElementById('editorBox').classList.toggle('biggerTerminal', expandedTerminal);
+  e.target.innerText = expandedTerminal ? 'Recolher' : 'Expandir';
+  client.editor.layout();
+  const interval = setInterval(() => {
+    client.editor.layout();
+  }, 10);
+  setTimeout(() => {
+    clearInterval(interval);
+    const terminal = document.getElementById('consoleContent');
+    terminal.scrollTo(0, terminal.scrollHeight);
+  }, 500);
 });

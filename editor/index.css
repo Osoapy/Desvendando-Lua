@@ -48,6 +48,8 @@
   padding: 0;
   isolation: isolate;
   transition: background 0.25s ease, color 0.25s ease, border 0.25s ease;
+  scrollbar-width: thin;
+  scrollbar-color: var(--discord-bg-500) var(--discord-background);
 }
 
 html, body {
@@ -158,6 +160,7 @@ html, body {
   grid-template-rows: var(--top-bar-height) calc(100% - var(--top-bar-height));
   height: 100%;
   width: 100%;
+  isolation: unset;
 }
 
 #editor {
@@ -172,11 +175,13 @@ html, body {
   width: 100%;
   height: var(--top-bar-height);
   display: flex;
+  overflow: hidden;
   flex-direction: row;
   justify-content: space-between;
   padding: 0.5rem 1rem;
   gap: 1rem;
   background: var(--topbar-bg);
+  isolation: unset;
 }
 
 @property --topbar-buttonShadowSize {
@@ -231,6 +236,14 @@ html, body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  margin-left: 0;
+  animation: fakediscordAnim 0.25s ease;
+}
+
+@keyframes fakediscordAnim {
+  from {
+    margin-left: 100%;
+  }
 }
 
 #fakeTabs {
@@ -292,6 +305,11 @@ html, body {
   grid-template-rows: 2fr 1fr;
   gap: 0.5rem;
   overflow: hidden;
+  transition: grid-template-rows 0.5s ease;
+}
+
+#editorBox.biggerTerminal {
+  grid-template-rows: 1fr 3fr;
 }
 
 #console {
@@ -536,7 +554,9 @@ html, body {
   flex-direction: column;
   height: 100%;
   width: 100%;
-  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
 }
 
 #fakeChat {
@@ -1012,4 +1032,76 @@ html, body {
   bottom: -15vh !important;
   opacity: 0;
   pointer-events: none;
+}
+
+#consoleInput {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+.TopBar {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  isolation: unset;
+}
+
+.expand {
+  grid-column: 1/3;
+  animation: expandAnim 0.25s ease;
+}
+
+.expand #console, .expand #editor {
+  border-radius: 0 !important;
+}
+
+@keyframes expandAnim {
+  from {
+    width: 65%;
+  }
+}
+
+#themeSwitch {
+  z-index: 9999999999999;
+}
+
+@media screen and (max-width: 850px) {
+  .button { 
+    font-size: 0.8rem;
+  }
+
+  .horizontal {
+    grid-template-columns: 1fr 3fr;
+  }
+}
+
+#consoleInput {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+  padding-inline: 0.5rem;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  background: var(--discord-background);
+  border-top: 1px solid var(--editor-text);
+}
+
+.consoleInputPrefix {
+  font-family: monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.consoleInputElement {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 0;
+  font-size: 1rem;
+  background: var(--discord-background);
+  color: var(--active-tab-txt);
 }

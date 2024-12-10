@@ -5,7 +5,7 @@
     <link
       rel="stylesheet"
       data-name="vs/editor/editor.main"
-      href="https://unpkg.com/monaco-editor@0.52.0/min/vs/editor/editor.main.css"
+      href="https://unpkg.com/monaco-editor@0.49.0/min/vs/editor/editor.main.css"
     />
     <link rel="stylesheet" type="text/css" href="./index.css" />
     <link rel="icon" type="image/x-icon" href="../assets/lua.svg">
@@ -29,25 +29,37 @@
     </div>
     <div id="pageContent" class="unselectable">
       <div id="TopBar">
-        <div id="TopBarLeft">
+        <div class="TopBar">
           <button id="runButton" class="button">Executar</button>
+          <button id="IncreaseFont" class="button">+ Fonte</button>
+          <button id="DecreaseFont" class="button">- Fonte</button>
+          <button id="ResetFont" class="button">Resetar Fonte</button>
         </div>
-        <div id="TopBarRight">
-          <button id="themeSwitch" class="button">Modo Claro</button>
+        <div class="TopBar">
+          <button id="themeSwitch" class="button forcedSelectable">Modo Claro</button>
+          <button id="discordSwitch" class="button">Mostrar Chat</button>
         </div>
       </div>
       <div class="horizontal">
-        <div id="editorBox">
+        <div id="editorBox" class="expand">
           <div id="editor"></div>
           <div id="console">
             <div id="editor-topbar">
               <h2 class="tabTitle">Terminal</h2>
-              <button id="cleanTerminal" class="button">Limpar</button>
+              <div class="TopBar">
+                <button id="expandTerminal" class="button">expandir</button>
+                <button id="cleanTerminal" class="button">Limpar</button>
+              </div>
             </div>
             <div id="consoleContent"></div>
+            <div id="consoleInput">
+              <span class="consoleInputPrefix">&gt;</span>
+              <input id="terminalInput" class="consoleInputElement" placeholder="">
+              <button id="terminalInputSubmit" class="simple-button"><div class="arrow-right"><div></div><div></div></div></button>
+            </div>
           </div>
         </div>
-        <div id="fakeDiscord">
+        <div id="fakeDiscord" class="hidden">
           <div id="fakeTabs">
             <button id="fakeDiscordChatButton" class="fakeTab active">Chat</button>
             <button id="fakeDiscordDevButton" class="fakeTab">Painel do Desenvolvedor</button>
@@ -134,13 +146,13 @@
     <script defer>
       var require = {
         paths: {
-          vs: "https://unpkg.com/monaco-editor@0.52.0/min/vs",
+          vs: "https://unpkg.com/monaco-editor@0.49.0/min/vs",
         },
       };
     </script>
-    <script defer src="https://unpkg.com/monaco-editor@0.52.0/min/vs/loader.js"></script>
-    <script defer src="https://unpkg.com/monaco-editor@0.52.0/min/vs/editor/editor.main.nls.js"></script>
-    <script defer src="https://unpkg.com/monaco-editor@0.52.0/min/vs/editor/editor.main.js"></script>
+    <script defer src="https://unpkg.com/monaco-editor@0.49.0/min/vs/loader.js"></script>
+    <script defer src="https://unpkg.com/monaco-editor@0.49.0/min/vs/editor/editor.main.nls.js"></script>
+    <script defer src="https://unpkg.com/monaco-editor@0.49.0/min/vs/editor/editor.main.js"></script>
     <script defer src="./index.js"></script>
   </body>
 </html>

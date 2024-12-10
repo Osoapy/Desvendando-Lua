@@ -1,6 +1,6 @@
-import { Channel, Message } from 'src/discordMock/features';
+import { Channel, Message } from './';
 import { DiscordSnowflake } from '@sapphire/snowflake';
-import { FakeDiscord } from 'src/FakeDiscord';
+import { FakeDiscord } from '../../FakeDiscord';
 
 export class User {
   public id: string;

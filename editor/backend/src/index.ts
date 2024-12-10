@@ -9,10 +9,8 @@ import path from 'path';
 import ws from 'ws';
 import fs from 'fs';
 
-
-const serverPort = configs.mainWebsocketPort;
 const webserverPort = configs.webServerPort;
-const host = configs.host;
+const serverPort = configs.websocket.port;
 
 export class Main extends LoggableClass {
   private logger: Logger;
@@ -29,6 +27,7 @@ export class Main extends LoggableClass {
       allLineColored: true,
       disableFatalCrash: true,
     });
+
     engine.registerLogger(this.logger);
     this.Users = [];
 
@@ -97,6 +96,7 @@ export class Main extends LoggableClass {
         res.sendStatus(403);
         return;
       }
+
       const json = JSON.stringify(bot.toDiscordJSON());
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.write(json);
@@ -109,6 +109,7 @@ export class Main extends LoggableClass {
         res.sendStatus(403);
         return;
       }
+
       const json = JSON.stringify(bot.getMainUser().getUserApplication()!.toDiscordJSON());
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.write(json);
@@ -117,8 +118,9 @@ export class Main extends LoggableClass {
 
     this.app.get('/v8/gateway', (_, res) => {
       const json = {
-        url: `ws://${host}:${configs.discordPort}/`,
+        url: `ws://localhost:${configs.discordPort}/`,
       }
+
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.write(JSON.stringify(json));
       res.end();
@@ -130,18 +132,21 @@ export class Main extends LoggableClass {
         res.sendStatus(403);
         return;
       }
+
       const token = authorization.split(' ')[1];
       if (!token) {
         res.sendStatus(403);
         return;
       }
+
       const owner = this.Users.find((user) => user.getBotUser()?.getToken() === token);
       if (!owner) {
         res.sendStatus(403);
         return;
       }
+
       const json = {
-        url: `ws://${host}:${configs.discordPort}/`,
+        url: `ws://localhost:${configs.discordPort}/`,
         "shards": 1,
         "session_start_limit": {
           "total": 1000,
@@ -159,7 +164,7 @@ export class Main extends LoggableClass {
     ///////////////////////////////////
 
     this.app.listen(webserverPort, () => {
-      this.logger.info(`Web server started on port ${serverPort}`);
+      this.logger.info(`Web server started on port ${webserverPort}`);
     });
   }
 
